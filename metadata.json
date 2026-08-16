@@ -1,0 +1,6 @@
+{
+  "name": "Sessiecat",
+  "description": "A marketplace app connecting local session musicians to customers including agencies and traveling artists.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

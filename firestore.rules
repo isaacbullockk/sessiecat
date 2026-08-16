@@ -1,0 +1,134 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    // Auth Helpers
+    function getMemberRole(orgId) {
+      let memberDoc = get(/databases/$(database)/documents/orgs/$(orgId)/members/$(request.auth.uid));
+      return memberDoc != null ? memberDoc.data.role : null;
+    }
+    function isOrgOwner(orgId) {
+      return isSignedIn() && getMemberRole(orgId) == 'owner';
+    }
+    function isOrgEditorOrOwner(orgId) {
+      let role = getMemberRole(orgId);
+      return isSignedIn() && (role == 'owner' || role == 'editor');
+    }
+    function isOrgMember(orgId) {
+      let role = getMemberRole(orgId);
+      return isSignedIn() && (role == 'owner' || role == 'editor' || role == 'viewer');
+    }
+
+    // Validation
+    function isValidOrg(data) {
+      return data.keys().hasAll(['name', 'createdAt']) && data.name is string && data.createdAt is string;
+    }
+    function isValidOrgMember(data) {
+      return data.keys().hasAll(['role', 'email', 'status']) && data.role is string && data.email is string && data.status is string;
+    }
+    function isValidProduction(data) {
+      return data.keys().hasAll(['orgId', 'name', 'startDate', 'endDate']) && data.orgId is string && data.name is string;
+    }
+    function isValidEvent(data) {
+      return data.keys().hasAll(['id', 'ownerId']) && data.id is string && data.ownerId is string;
+    }
+    function isValidEventSlot(data) {
+      return data.keys().hasAll(['role', 'status']) && data.role is string && data.status is string;
+    }
+    function isValidEventSlotCreate(data) {
+      return data.keys().hasAll(['role', 'status']) && data.role is string && data.status == 'open' && data.keys().size() == 2;
+    }
+
+    // Orgs
+    match /orgs/{orgId} {
+      allow read: if isOrgMember(orgId);
+      allow create: if isSignedIn() && isValidOrg(incoming()); // First creation is allowed
+      allow update: if isOrgOwner(orgId) && isValidOrg(incoming());
+      
+      match /members/{userId} {
+        allow read: if isOrgMember(orgId) || request.auth.uid == userId;
+        allow create: if isOrgOwner(orgId) && isValidOrgMember(incoming());
+        allow update: if (isOrgOwner(orgId) && isValidOrgMember(incoming())) ||
+                         (request.auth.uid == userId && isValidOrgMember(incoming()) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'joinedAt']));
+        allow delete: if isOrgOwner(orgId);
+      }
+    }
+
+    // Productions
+    match /productions/{productionId} {
+      allow read: if isOrgMember(existing().orgId);
+      allow create: if isOrgEditorOrOwner(incoming().orgId) && isValidProduction(incoming());
+      allow update: if isOrgEditorOrOwner(existing().orgId) && isValidProduction(incoming()) && incoming().orgId == existing().orgId;
+      allow delete: if isOrgOwner(existing().orgId);
+    }
+    
+    // Events
+    match /events/{eventId} {
+      allow read: if true; // Events are public for claiming
+      allow create: if isSignedIn() && isValidEvent(incoming()) && incoming().ownerId == request.auth.uid;
+      allow update: if isSignedIn() && isValidEvent(incoming()) && existing().ownerId == request.auth.uid && incoming().ownerId == existing().ownerId;
+      allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+      
+      match /slots/{slotId} {
+        allow read: if true; // Public can see slots
+        allow create: if isSignedIn() && isValidEventSlotCreate(incoming()) && get(/databases/$(database)/documents/events/$(eventId)).data.ownerId == request.auth.uid;
+        allow update: if isSignedIn() && isValidEventSlot(incoming()) && get(/databases/$(database)/documents/events/$(eventId)).data.ownerId == request.auth.uid;
+        allow delete: if isSignedIn() && get(/databases/$(database)/documents/events/$(eventId)).data.ownerId == request.auth.uid;
+      }
+      
+      // Allow organizers to read private claim data
+      match /slots/{slotId}/claims/{claimId} {
+        allow read: if isSignedIn() && get(/databases/$(database)/documents/events/$(eventId)).data.ownerId == request.auth.uid;
+        allow write: if false; // Server backend only!
+      }
+    }
+
+    // Users
+    match /users/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow write: if isSignedIn() && request.auth.uid == userId && isValidId(userId);
+    }
+    
+    // Application Core Collections
+    match /artists/{artistId} {
+      allow read: if true;
+      allow create, update: if isSignedIn() && isValidId(artistId);
+      allow delete: if isSignedIn() && isValidId(artistId);
+    }
+
+    match /gigs/{gigId} {
+      allow read: if true;
+      allow create, update: if isSignedIn() && isValidId(gigId);
+      allow delete: if isSignedIn() && isValidId(gigId);
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow create, update: if isSignedIn() && isValidId(bookingId);
+      allow delete: if isSignedIn() && isValidId(bookingId);
+    }
+
+    match /chats/{chatId} {
+      allow read, write: if isSignedIn() && isValidId(chatId);
+    }
+
+    match /tours/{tourId} {
+      allow read: if true;
+      allow create, update: if isSignedIn() && isValidId(tourId);
+      allow delete: if isSignedIn() && isValidId(tourId);
+    }
+
+    match /musicians/{mId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isValidId(mId);
+    }
+  }
+}
