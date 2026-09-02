@@ -1,0 +1,201 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with roles and custom defaults",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["manager", "organizer", "musician"] },
+        "orgId": { "type": "string" },
+        "defaults": { "type": "object" }
+      },
+      "required": ["userId", "email", "role"]
+    },
+    "Tour": {
+      "title": "Tour",
+      "description": "Touring project with city route schedule, dates, and role requirements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "cities": { "type": "array" },
+        "dates": { "type": "array" },
+        "status": { "type": "string", "enum": ["draft", "active", "completed"] },
+        "requirements": { "type": "object" }
+      },
+      "required": ["id", "ownerId", "name", "status"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "One-off local jam or rehearsal session needing slot fill",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "venue": { "type": "string" },
+        "city": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "ownerId"]
+    },
+    "EventSlot": {
+      "title": "EventSlot",
+      "description": "A slot in an event that can be claimed by a musician",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "held", "confirmed", "expired", "declined"] },
+        "heldBy": { "type": "object" },
+        "holdExpiresAt": { "type": "string" },
+        "confirmedAt": { "type": "string" }
+      },
+      "required": ["role", "status"]
+    },
+    "Organization": {
+      "title": "Organization",
+      "description": "Org for team model",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "createdAt"]
+    },
+    "OrgMember": {
+      "title": "OrgMember",
+      "description": "Member of an org",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["owner", "editor", "viewer"] },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "string", "enum": ["invited", "active" ] },
+        "invitedAt": { "type": "string" },
+        "joinedAt": { "type": "string" }
+      },
+      "required": ["role", "email", "status"]
+    },
+    "Production": {
+      "title": "Production",
+      "description": "Production for team model replacing Tour",
+      "type": "object",
+      "properties": {
+        "orgId": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "name": { "type": "string" },
+        "venue": { "type": "string" },
+        "city": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "services": { "type": "array" },
+        "status": { "type": "string" }
+      },
+      "required": ["orgId", "name", "startDate", "endDate"]
+    },
+    "Musician": {
+      "title": "Musician",
+      "description": "Certified premium sessionist profile with rich rate card and SLA metrics",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "displayName": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "instruments": { "type": "array" },
+        "cityBase": { "type": "string" },
+        "tags": { "type": "array" },
+        "rates": { "type": "object" },
+        "reliability": { "type": "object" },
+        "verification": { "type": "object" }
+      },
+      "required": ["id", "displayName", "instruments", "cityBase"]
+    },
+    "AvailabilitySlot": {
+      "title": "AvailabilitySlot",
+      "description": "Specified calendar slot mapping availability",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "start": { "type": "string" },
+        "end": { "type": "string" },
+        "city": { "type": "string" },
+        "status": { "type": "string", "enum": ["available", "unavailable", "tentative"] }
+      },
+      "required": ["id", "start", "end", "status"]
+    },
+    "Hold": {
+      "title": "Hold",
+      "description": "Locked rate and exclusivity hold on a musician for an event/tour role",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tourId": { "type": "string" },
+        "eventId": { "type": "string" },
+        "musicianId": { "type": "string" },
+        "role": { "type": "string" },
+        "rateLocked": { "type": "number" },
+        "holdExpiresAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["requested", "accepted", "declined", "expired", "confirmed", "released"] },
+        "createdBy": { "type": "string" }
+      },
+      "required": ["id", "musicianId", "rateLocked", "holdExpiresAt", "status", "createdBy"]
+    },
+    "MessageItem": {
+      "title": "MessageItem",
+      "description": "Single message item inside a collaborative secure escrow interaction thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "senderId", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Registered credentials and default options"
+    },
+    "/orgs/{orgId}": {
+      "schema": "Organization",
+      "description": "Orgs for team model"
+    },
+    "/orgs/{orgId}/members/{userId}": {
+      "schema": "OrgMember",
+      "description": "Members of the organization"
+    },
+    "/productions/{productionId}": {
+      "schema": "Production",
+      "description": "Active productions created by editors/owners"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Active jams and gig events created by organizers"
+    },
+    "/events/{eventId}/slots/{slotId}": {
+      "schema": "EventSlot",
+      "description": "Slots for a specific event that can be claimed"
+    },
+    "/musicians/{musicianId}": {
+      "schema": "Musician",
+      "description": "Professional sessionist profiles directory"
+    },
+    "/availability/{musicianId}/slots/{slotId}": {
+      "schema": "AvailabilitySlot",
+      "description": "Dynamic sessionist slot records"
+    },
+    "/holds/{holdId}": {
+      "schema": "Hold",
+      "description": "Locked-rate rate holds"
+    },
+    "/messages/{threadId}/items/{messageId}": {
+      "schema": "MessageItem",
+      "description": "Escrow chat conversation threads"
+    }
+  }
+}

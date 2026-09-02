@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isSignedIn() { return request.auth != null; }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    // Auth Helpers
+    function getMemberRole(orgId) {
+      let memberDoc = get(/databases/$(database)/documents/orgs/$(orgId)/members/$(request.auth.uid));
+      return memberDoc != null ? memberDoc.data.role : null;
+    }
+    function isOrgOwner(orgId) {
+      return isSignedIn() && getMemberRole(orgId) == 'owner';
+    }
+    function isOrgEditorOrOwner(orgId) {
+      let role = getMemberRole(orgId);
+      return isSignedIn() && (role == 'owner' || role == 'editor');
+    }
+    function isOrgMember(orgId) {
+      let role = getMemberRole(orgId);
+      return isSignedIn() && (role == 'owner' || role == 'editor' || role == 'viewer');
+    }
+
+    // Orgs
+    match /orgs/{orgId} {
+      allow read: if isOrgMember(orgId);
+      allow create: if isSignedIn();
+      allow update, delete: if isOrgOwner(orgId);
+      
+      match /members/{userId} {
+        allow read: if isOrgMember(orgId) || (isSignedIn() && request.auth.uid == userId);
+        allow create, delete: if isOrgOwner(orgId);
+        allow update: if isOrgOwner(orgId) || (isSignedIn() && request.auth.uid == userId);
+      }
+    }
+
+    // Productions
+    match /productions/{productionId} {
+      allow read: if isOrgMember(existing().orgId);
+      allow create: if isOrgEditorOrOwner(incoming().orgId);
+      allow update: if isOrgEditorOrOwner(existing().orgId);
+      allow delete: if isOrgOwner(existing().orgId);
+    }
+    
+    // Events & Jams
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+      
+      match /slots/{slotId} {
+        allow read: if true;
+        allow write: if isSignedIn();
+        
+        match /claims/{claimId} {
+          allow read, write: if isSignedIn();
+        }
+      }
+    }
+
+    // Users
+    match /users/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow write: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Application Core Collections
+    match /artists/{artistId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /gigs/{gigId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /chats/{chatId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /tours/{tourId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /musicians/{mId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /radar_alerts/{alertId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+  }
+}
+
