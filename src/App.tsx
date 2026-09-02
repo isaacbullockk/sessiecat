@@ -38,6 +38,7 @@ import { PrivacyPolicy } from "./components/PrivacyPolicy";
 import { TermsOfService } from "./components/TermsOfService";
 import { DemoTools } from "./components/DemoTools";
 import { AudioStudio } from "./components/AudioStudio";
+import { MobileNavigation } from "./components/MobileNavigation";
 import { useTranslation } from "react-i18next";
 import {
   initAuth,
@@ -1454,41 +1455,44 @@ export default function App() {
           }
         }} 
       />
-      {/* Universal Top Header/Hero */}
-      <header className="border-b border-white/10 bg-[#0A0A0A]/95 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <SessiecatLogo size="md" />
+      {/* Universal Top Header/Hero - Mobile Responsive */}
+      <header className="border-b border-white/10 bg-[#0A0A0A]/95 sticky top-0 z-40 pt-safe">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3 sm:gap-6 min-w-0 shrink-0">
+            <SessiecatLogo size="sm" className="sm:hidden" />
+            <SessiecatLogo size="md" className="hidden sm:flex" />
             <div className="hidden lg:block border-l border-white/20 pl-6">
               <LanguageToggle />
             </div>
           </div>
 
           {/* Core Actions Container */}
-          <div className="flex items-center gap-2 overflow-x-auto overflow-y-hidden scrollbar-none pr-1">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Core Flow Switcher */}
-            <div className="flex bg-white/5 p-1 rounded-none border border-white/10 shrink-0">
+            <div className="flex bg-white/5 p-0.5 sm:p-1 border border-white/10 rounded-lg shrink-0">
               <button
                 id="switch-view-hire"
                 onClick={() => setViewMode("hire")}
-                className={`px-3 sm:px-4 py-2 text-[9px] sm:text-[10px] whitespace-nowrap uppercase font-mono tracking-wider transition-all cursor-pointer rounded-none ${
+                className={`px-2.5 sm:px-4 py-1.5 sm:py-2 text-[8.5px] sm:text-[10px] whitespace-nowrap uppercase font-mono tracking-wider transition-all cursor-pointer rounded-md ${
                   viewMode === "hire"
-                    ? "bg-brand-accent text-black font-extrabold"
-                    : "text-white/40 hover:text-white"
+                    ? "bg-brand-accent text-black font-black shadow-xs"
+                    : "text-white/50 hover:text-white"
                 }`}
               >
-                {t('nav.artists', 'Find Sessiecats')}
+                <span className="sm:hidden">Hire</span>
+                <span className="hidden sm:inline">{t('nav.artists', 'Find Sessiecats')}</span>
               </button>
               <button
                 id="switch-view-work"
                 onClick={() => setViewMode("work")}
-                className={`px-3 sm:px-4 py-2 text-[9px] sm:text-[10px] whitespace-nowrap uppercase font-mono tracking-wider transition-all cursor-pointer rounded-none ${
+                className={`px-2.5 sm:px-4 py-1.5 sm:py-2 text-[8.5px] sm:text-[10px] whitespace-nowrap uppercase font-mono tracking-wider transition-all cursor-pointer rounded-md ${
                   viewMode === "work"
-                    ? "bg-brand-accent text-black font-extrabold"
-                    : "text-white/40 hover:text-white"
+                    ? "bg-brand-accent text-black font-black shadow-xs"
+                    : "text-white/50 hover:text-white"
                 }`}
               >
-                {t('nav.jams', 'Find Gigs')}
+                <span className="sm:hidden">Gigs</span>
+                <span className="hidden sm:inline">{t('nav.jams', 'Find Gigs')}</span>
               </button>
             </div>
 
@@ -1496,7 +1500,7 @@ export default function App() {
             <button
               id="register-artist-trigger"
               onClick={() => setIsAddArtistOpen(true)}
-              className="flex items-center gap-1.5 bg-brand-accent/15 hover:bg-brand-accent hover:text-black text-[9px] sm:text-[10px] text-brand-accent hover:border-brand-accent font-mono tracking-widest uppercase border border-brand-accent/35 px-3 sm:px-4.5 py-2.5 cursor-pointer transition-all rounded-none font-bold shadow-[0_0_12px_rgba(172,108,255,0.05)] shrink-0"
+              className="flex items-center gap-1.5 bg-brand-accent/15 hover:bg-brand-accent hover:text-black text-[9px] sm:text-[10px] text-brand-accent hover:border-brand-accent font-mono tracking-widest uppercase border border-brand-accent/35 px-2.5 sm:px-4 py-2 sm:py-2.5 cursor-pointer transition-all rounded-lg font-bold shadow-[0_0_12px_rgba(172,108,255,0.05)] shrink-0"
             >
               {myArtistProfile ? (
                 <>
@@ -1515,22 +1519,23 @@ export default function App() {
 
             <button
               onClick={() => setIsInviteOpen(true)}
-              className="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-[9px] sm:text-[10px] text-white/90 hover:text-white font-mono tracking-widest uppercase border border-white/20 px-3 sm:px-4.5 py-2.5 cursor-pointer transition-all rounded-none font-bold shrink-0"
+              className="hidden md:flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-[9px] sm:text-[10px] text-white/90 hover:text-white font-mono tracking-widest uppercase border border-white/20 px-3 sm:px-4 py-2 sm:py-2.5 cursor-pointer transition-all rounded-lg font-bold shrink-0"
             >
               <Users className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Invite Network</span>
-              <span className="sm:hidden">Invite</span>
+              <span>Invite Network</span>
             </button>
+
             <div className="shrink-0 flex items-center justify-center">
               <NotificationBell />
             </div>
 
             <button
               onClick={handleGoogleLogout}
-              className="flex items-center gap-1.5 hover:bg-white/10 text-[9px] sm:text-[10px] text-white/50 hover:text-white font-mono tracking-widest uppercase px-3 sm:px-4.5 py-2.5 cursor-pointer transition-all rounded-none font-bold shrink-0"
+              className="hidden sm:flex items-center gap-1.5 hover:bg-white/10 text-[9px] sm:text-[10px] text-white/50 hover:text-white font-mono tracking-widest uppercase px-2.5 sm:px-3.5 py-2 sm:py-2.5 cursor-pointer transition-all rounded-lg font-bold shrink-0"
+              title="Logout"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Logout</span>
+              <span className="hidden lg:inline">Logout</span>
             </button>
           </div>
         </div>
@@ -1544,8 +1549,8 @@ export default function App() {
         </div>
       )}
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* Main Container with safe bottom navigation padding on mobile */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 pb-28 sm:pb-12 space-y-6 sm:space-y-8">
         {/* Modular Workspace Page Tabstrip - High Contrast Luxury Navigation */}
         {viewMode === "hire" && (
           <div className="flex border-b border-white/10 overflow-x-auto scrollbar-none font-mono text-[10.5px] uppercase tracking-wider font-bold bg-[#141414] p-1.5 select-none gap-2">
@@ -3280,6 +3285,24 @@ export default function App() {
           </button>
         </div>
       </footer>
+
+      {/* Dedicated Sticky Mobile Navigation for Phones */}
+      <MobileNavigation
+        currentTab={route.base}
+        onNavigate={(tabId) => navigateTo(tabId)}
+        viewMode={viewMode}
+        onToggleViewMode={(mode) => setViewMode(mode)}
+        myArtistProfile={myArtistProfile}
+        onOpenProfile={() => setIsAddArtistOpen(true)}
+        onOpenInvite={() => setIsInviteOpen(true)}
+        onLogout={handleGoogleLogout}
+        toursCount={tours.length}
+        holdsCount={
+          tours
+            .flatMap((t) => t.roleRequirements)
+            .filter((r) => r.status === "Hold").length
+        }
+      />
 
       {/* GDPR Cookie & Privacy Choice Banner */}
       <CookieConsentBanner onConsentChange={setGdprConsent} />

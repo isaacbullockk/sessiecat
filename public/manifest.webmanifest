@@ -1,0 +1,42 @@
+{
+  "name": "Sessiecat - Live Music & Sessionist Platform",
+  "short_name": "Sessiecat",
+  "description": "The elite marketplace and tour operating system for live musicians, sessionists, deps, and touring bands.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Audio Studio",
+      "url": "/#audio",
+      "description": "Open Rehearsal Audio Studio"
+    },
+    {
+      "name": "Tour Workspace",
+      "url": "/#tours",
+      "description": "Manage Live Tours & Holds"
+    },
+    {
+      "name": "Find Gigs",
+      "url": "/#jams",
+      "description": "Browse open gigs and deps"
+    }
+  ]
+}

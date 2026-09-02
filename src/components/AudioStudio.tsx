@@ -965,58 +965,58 @@ export function AudioStudio({ currentGoogleUser, onAttachToTour, onAttachToJam }
           </div>
 
           {/* Tab Navigation */}
-          <div className="flex items-center justify-between border-b border-stone-200 dark:border-stone-800">
-            <div className="flex items-center gap-2 overflow-x-auto py-1">
+          <div className="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 overflow-hidden">
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-1 scrollbar-none w-full">
               <button
                 id="tab_mixer"
                 onClick={() => setActiveTab("mixer")}
-                className={`px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "mixer"
                     ? "bg-amber-500 text-stone-950 shadow-md"
                     : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
                 }`}
               >
-                <Sliders className="w-4 h-4" />
-                4-Stem Practice Mixer
+                <Sliders className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span>4-Stem Mixer</span>
               </button>
 
               <button
                 id="tab_setlist"
                 onClick={() => setActiveTab("setlist")}
-                className={`px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "setlist"
                     ? "bg-amber-500 text-stone-950 shadow-md"
                     : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
                 }`}
               >
-                <ListMusic className="w-4 h-4" />
-                Full Smart Setlist ({session.setlist.length} tracks)
+                <ListMusic className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span>Setlist ({session.setlist.length})</span>
               </button>
 
               <button
                 id="tab_sheet"
                 onClick={() => setActiveTab("sheet")}
-                className={`px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "sheet"
                     ? "bg-amber-500 text-stone-950 shadow-md"
                     : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
                 }`}
               >
-                <Music className="w-4 h-4" />
-                Sheet Music, Chords & Tabs
+                <Music className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span>Sheet Music & Chords</span>
               </button>
 
               <button
                 id="tab_transcript"
                 onClick={() => setActiveTab("transcript")}
-                className={`px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   activeTab === "transcript"
                     ? "bg-amber-500 text-stone-950 shadow-md"
                     : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
                 }`}
               >
-                <FileText className="w-4 h-4" />
-                Verbatim Transcript & Cue Calls
+                <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span>Transcript</span>
               </button>
             </div>
           </div>
