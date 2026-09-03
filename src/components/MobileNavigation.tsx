@@ -52,16 +52,22 @@ export function MobileNavigation({
 }: MobileNavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const primaryTabs = [
+  interface NavItem {
+    id: string;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    count?: number;
+  }
+
+  const primaryTabs: NavItem[] = [
     { id: "dashboard", label: "Explore", icon: Compass },
-    { id: "audio", label: "Studio", icon: Radio },
     { id: "tours", label: "Tours", icon: Briefcase, count: toursCount },
+    { id: "holds", label: "Holds", icon: Lock, count: holdsCount },
     { id: "jams", label: "Gigs", icon: Target },
   ];
 
-  const secondaryModules = [
+  const secondaryModules: NavItem[] = [
     { id: "artists", label: "Browse Artists", icon: Users },
-    { id: "holds", label: "Rate Holds Console", icon: Lock, count: holdsCount },
     { id: "leadScraper", label: "AI Lead Scraper", icon: Search },
     { id: "rehearsals", label: "Rehearsals Hub", icon: Calendar },
     { id: "gear", label: "Local Gear Shops", icon: ShoppingBag },

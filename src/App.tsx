@@ -37,7 +37,6 @@ import { LanguageToggle } from "./components/LanguageToggle";
 import { PrivacyPolicy } from "./components/PrivacyPolicy";
 import { TermsOfService } from "./components/TermsOfService";
 import { DemoTools } from "./components/DemoTools";
-import { AudioStudio } from "./components/AudioStudio";
 import { MobileNavigation } from "./components/MobileNavigation";
 import { useTranslation } from "react-i18next";
 import {
@@ -1556,7 +1555,6 @@ export default function App() {
           <div className="flex border-b border-white/10 overflow-x-auto scrollbar-none font-mono text-[10.5px] uppercase tracking-wider font-bold bg-[#141414] p-1.5 select-none gap-2">
             {[
               { id: "dashboard", label: "Dashboard Workspace", icon: Compass },
-              { id: "audio", label: "Audio Studio (Transcripts & Stems)", icon: Radio },
               { id: "jams", label: "Bookers / Organisers", icon: Target },
               {
                 id: "tours",
@@ -2005,51 +2003,6 @@ export default function App() {
 
             {route.base === "visitors" && (
               <VisitorAnalytics />
-            )}
-
-            {/* Rehearsal Audio Studio, Transcripts, Stems & Sheet Music Module */}
-            {route.base === "audio" && (
-              <div className="space-y-8 animate-fade-in">
-                <AudioStudio
-                  currentGoogleUser={googleUser}
-                  onAttachToTour={(setlist) => {
-                    const newTour: TourEvent = {
-                      id: `tour_aud_${Date.now()}`,
-                      name: `Showcase: ${setlist[0]?.songTitle || "Live Rehearsal"}`,
-                      startDate: new Date().toISOString().split("T")[0],
-                      endDate: new Date(Date.now() + 86400000 * 14).toISOString().split("T")[0],
-                      description: `Auto-generated setlist (${setlist.length} tracks) with stage cues.`,
-                      budgetShow: 1350,
-                      roleRequirements: [
-                        {
-                          id: `role_aud_1`,
-                          roleName: "Bass Guitar Chair",
-                          status: "Open",
-                          targetBudgetShow: 450,
-                          negotiationHistory: [],
-                        },
-                        {
-                          id: `role_aud_2`,
-                          roleName: "Drummer Pocket Chair",
-                          status: "Open",
-                          targetBudgetShow: 450,
-                          negotiationHistory: [],
-                        },
-                        {
-                          id: `role_aud_3`,
-                          roleName: "Keys & Synths Director",
-                          status: "Open",
-                          targetBudgetShow: 450,
-                          negotiationHistory: [],
-                        },
-                      ],
-                    };
-                    setTours((prev) => [newTour, ...prev]);
-                    navigateTo("tours");
-                    setSuccessBanner(`Setlist with ${setlist.length} tracks attached to new Tour Campaign!`);
-                  }}
-                />
-              </div>
             )}
 
             {route.base === "jams" && (

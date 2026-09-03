@@ -24,11 +24,6 @@
   "categories": ["music", "business", "productivity"],
   "shortcuts": [
     {
-      "name": "Audio Studio",
-      "url": "/#audio",
-      "description": "Open Rehearsal Audio Studio"
-    },
-    {
       "name": "Tour Workspace",
       "url": "/#tours",
       "description": "Manage Live Tours & Holds"
@@ -37,6 +32,11 @@
       "name": "Find Gigs",
       "url": "/#jams",
       "description": "Browse open gigs and deps"
+    },
+    {
+      "name": "Rate Holds Console",
+      "url": "/#holds",
+      "description": "Exclusive 24h musician holds"
     }
   ]
 }
