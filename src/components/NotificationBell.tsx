@@ -82,7 +82,7 @@ export const NotificationBell: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="bg-brand-accent/10 border border-brand-accent/30 text-brand-accent text-[9px] font-mono px-2 py-0.5 uppercase tracking-widest font-black flex items-center gap-1.5">
                 <Activity className={`w-3 h-3 ${isActive ? "animate-pulse" : ""}`} />
-                <span>AI Live Radar</span>
+                <span>Live Gig Radar</span>
               </span>
             </div>
             <div className="flex items-center gap-3">
@@ -156,7 +156,7 @@ export const NotificationBell: React.FC = () => {
              {!isActive && alerts.length === 0 && !showSettings && (
                <div className="p-8 text-center space-y-3">
                  <Search className="w-8 h-8 text-white/20 mx-auto" />
-                 <p className="text-sm text-white/40 font-light">AI Radar is inactive. Open settings to configure and start real-time gig scraping.</p>
+                 <p className="text-sm text-white/40 font-light">Live Radar is inactief. Configureer je instrument en stad om realtime meldingen van nieuwe sessies te ontvangen.</p>
                </div>
              )}
 

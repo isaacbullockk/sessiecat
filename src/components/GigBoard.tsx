@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Gig } from '../types';
-import { Tag, MapPin, Calendar, Clock, DollarSign, Send, CheckCircle, Plus, Sparkles, Building, User } from 'lucide-react';
+import { Tag, MapPin, Calendar, Clock, DollarSign, Send, CheckCircle, Plus, Sparkles, Building, User, ShieldCheck } from 'lucide-react';
 
 interface GigBoardProps {
   gigs: Gig[];
   onApply: (gigId: string) => void;
   onPostGig: (newGig: Omit<Gig, 'id' | 'status'>) => void;
+  onOpenManifest?: () => void;
 }
 
-export function GigBoard({ gigs, onApply, onPostGig }: GigBoardProps) {
+export function GigBoard({ gigs, onApply, onPostGig, onOpenManifest }: GigBoardProps) {
   const [instrumentFilter, setInstrumentFilter] = useState('Alle');
   const [searchTerm, setSearchTerm] = useState('');
   
@@ -89,6 +90,39 @@ export function GigBoard({ gigs, onApply, onPostGig }: GigBoardProps) {
           <Plus className="w-4 h-4 text-black" />
           {showPostForm ? 'Annuleren' : '+ Oproep / Gig Plaatsen'}
         </button>
+      </div>
+
+      {/* 100% Menselijk & Fair Practice Trust Banner */}
+      <div className="bg-[#141414] border-l-4 border-l-[#D1FF26] border border-white/10 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-[#D1FF26]/10 text-[#D1FF26] rounded-lg shrink-0">
+            <ShieldCheck className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs font-black uppercase text-white tracking-wide">
+                100% Menselijk Muzikanten Netwerk
+              </span>
+              <span className="text-[9px] font-mono text-[#D1FF26] bg-black px-1.5 py-0.5 rounded border border-[#D1FF26]/40 uppercase font-bold">
+                0% AI Audio
+              </span>
+              <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/30 uppercase font-bold">
+                Pop-CAO Norm
+              </span>
+            </div>
+            <p className="text-[11px] text-white/60 font-mono mt-0.5">
+              Alle sessies en gigs worden gespeeld door échte mensen tegen eerlijke tarieven. Wij trainen géén AI-modellen op jouw muziek.
+            </p>
+          </div>
+        </div>
+        {onOpenManifest && (
+          <button
+            onClick={onOpenManifest}
+            className="text-xs font-mono font-bold text-[#D1FF26] hover:underline flex items-center gap-1.5 whitespace-nowrap self-start sm:self-center cursor-pointer shrink-0"
+          >
+            Lees ons Manifest ➔
+          </button>
+        )}
       </div>
 
       {/* Post Gig form drawer inline */}

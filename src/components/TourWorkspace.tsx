@@ -89,7 +89,7 @@ export function TourWorkspace({
   const [csBroadcastLogs, setCsBroadcastLogs] = useState<string[]>([]);
   const [isBroadcasting, setIsBroadcasting] = useState(false);
 
-  // AI Copilot State
+  // Tour Production & CAO Assistant State
   const [copilotExpanded, setCopilotExpanded] = useState(true);
   const [copilotInput, setCopilotInput] = useState('');
   const [copilotMessages, setCopilotMessages] = useState<Array<{
@@ -105,7 +105,7 @@ export function TourWorkspace({
     {
       id: 'welcome',
       sender: 'assistant',
-      text: "Hey! I'm your grounded **Sessiecat AI Copilot**. I analyze this tour's budget and requirements to help match elite verified artists.\n\nAsk me to **'Build roster under budget'**, **'Suggest artists for open slots'** or **'Draft hold invitations'**."
+      text: "Welkom! Ik ben je **Tour Productie-Assistent**. Ik analyseer de bezetting, tourbegroting en Pop-CAO normen om de perfecte geverifieerde sessiemuzikanten te selecteren.\n\nVraag gerust: **'Bereken bezetting binnen budget'**, **'Stel muzikanten voor op open rollen'** of **'Controleer CAO minimumtarieven'**."
     }
   ]);
   const [isCopilotThinking, setIsCopilotThinking] = useState(false);
@@ -158,7 +158,7 @@ export function TourWorkspace({
       setCopilotMessages(prev => [...prev, {
         id: `cop_err_${Date.now()}`,
         sender: 'assistant',
-        text: "I experienced a connection issue loading Gemini's workspace models. However, you can manage and book available artists directly using our manual bid tools below!"
+        text: "De begrotingsmodule kon tijdelijk niet worden bereikt. Je kunt alle bezettingen en gage-biedingen direct handmatig beheren via onderstaand roster!"
       }]);
     } finally {
       setIsCopilotThinking(false);
@@ -809,7 +809,7 @@ export function TourWorkspace({
                   onClick={handleAutoPilotRun}
                   className="flex items-center gap-1 text-[9px] font-black font-mono uppercase bg-[#AC6CFF] text-black hover:bg-white border border-[#AC6CFF] hover:border-white py-1 px-2.5 transition cursor-pointer"
                 >
-                  <Cpu className="w-3 h-3" /> Auto-Pilot Roster
+                  <Cpu className="w-3 h-3" /> ⚡ Bereken Roster & CAO
                 </button>
                 <button
                   onClick={() => {
@@ -1200,7 +1200,7 @@ export function TourWorkspace({
 
                 {activeTour.roleRequirements.filter(r => r.assignedArtistId).length === 0 ? (
                   <div className="text-center py-4 border border-dashed border-white/10 text-white/30 text-xs uppercase font-mono tracking-tight">
-                    No validated artists confirmed on tour roster yet. Use AI suggestions to add roles.
+                    Nog geen bevestigde muzikanten in het roster. Gebruik de bezettingscalculator of voeg direct rollen toe.
                   </div>
                 ) : (
                   <div className="space-y-2">
@@ -1418,7 +1418,7 @@ export function TourWorkspace({
               </div>
             </div>
 
-            {/* AI Copilot Workspace Companion */}
+            {/* Tour Productie & CAO Assistent */}
             <div id="ai-copilot-panel" className="bg-black/80 border-2 border-brand-accent/30 p-5 space-y-4 font-sans animate-fade-in relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-brand-accent/5 rounded-full blur-2xl pointer-events-none" />
               
@@ -1428,10 +1428,10 @@ export function TourWorkspace({
                     <Sparkles className="w-4 h-4 text-brand-accent animate-pulse" />
                   </div>
                   <div>
-                    <span className="text-xs font-black text-white uppercase tracking-tight block">AI WORKSPACE COPILOT</span>
+                    <span className="text-xs font-black text-white uppercase tracking-tight block">TOUR PRODUCTIE & CAO ASSISTENT</span>
                     <span className="text-[8px] font-mono text-white/40 uppercase tracking-widest block flex items-center gap-1">
                       <Cpu className="w-2.5 h-2.5 text-brand-accent" />
-                      CONTEXT: {activeTour.name}
+                      TOUR: {activeTour.name}
                     </span>
                   </div>
                 </div>
@@ -1439,7 +1439,7 @@ export function TourWorkspace({
                   onClick={() => setCopilotExpanded(!copilotExpanded)}
                   className="text-[9px] font-mono uppercase px-2 py-0.5 border border-white/10 hover:border-white text-white/50 hover:text-white transition cursor-pointer"
                 >
-                  {copilotExpanded ? "COLLAPSE" : "EXPAND"}
+                  {copilotExpanded ? "INKLAPPEN" : "UITKLAPPEN"}
                 </button>
               </div>
 
@@ -1453,7 +1453,7 @@ export function TourWorkspace({
                         className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
                       >
                         <span className="text-[7.5px] font-mono uppercase text-white/30 mb-0.5">
-                          {msg.sender === "user" ? "TOUR MANAGER" : "Sessiecat AI"}
+                          {msg.sender === "user" ? "TOUR MANAGER" : "PRODUCTIE ASSISTENT"}
                         </span>
                         
                         <div className={`p-3 text-xs leading-relaxed max-w-[95%] ${
@@ -1592,7 +1592,7 @@ export function TourWorkspace({
                       <div className="flex items-center gap-2">
                         <div className="bg-neutral-900 border border-brand-accent p-2.5 text-brand-accent flex items-center gap-2 text-[10.5px] font-mono uppercase tracking-wider animate-pulse">
                           <Cpu className="w-3.5 h-3.5 animate-spin" />
-                          <span>Gemini model resolving campaign...</span>
+                          <span>Begroting & bezetting doorrekenen...</span>
                         </div>
                       </div>
                     )}

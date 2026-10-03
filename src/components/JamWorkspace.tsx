@@ -262,11 +262,11 @@ Claim a slot: ${claimUrl}`;
         }
       }
 
-      setAutoPilotStatus(`🤖 Auto-Pilot Voltooid: ${heldSlotsCount} nieuwe opties vergrendeld voor ${jam.name}.`);
+      setAutoPilotStatus(`⚡ Invalpool Gesynchroniseerd: ${heldSlotsCount} nieuwe bezettingen gereserveerd voor ${jam.name}.`);
       setTimeout(() => setAutoPilotStatus(null), 8000);
     } catch(err) {
       console.error(err);
-      setAutoPilotStatus("Auto-Pilot kon niet worden voltooid.");
+      setAutoPilotStatus("Invalpool synchronisatie kon niet worden voltooid.");
       setTimeout(() => setAutoPilotStatus(null), 5000);
     } finally {
       setIsAutoPiloting(false);
@@ -301,7 +301,7 @@ Claim a slot: ${claimUrl}`;
                 className="flex items-center gap-2 text-xs font-black font-mono uppercase bg-[#AC6CFF] text-black hover:bg-white border border-[#AC6CFF] hover:border-white px-4 py-2 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Cpu className={`w-4 h-4 ${isAutoPiloting ? 'animate-spin' : ''}`} /> 
-                {isAutoPiloting ? 'Auto-Piloting...' : 'Auto-Pilot Event'}
+                {isAutoPiloting ? 'Invalpool Zoeken...' : '⚡ Invalpool Oproep'}
               </button>
               <button
                 onClick={() => handleShareWhatsApp(jam)}

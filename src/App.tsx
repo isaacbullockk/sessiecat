@@ -38,6 +38,7 @@ import { PrivacyPolicy } from "./components/PrivacyPolicy";
 import { TermsOfService } from "./components/TermsOfService";
 import { DemoTools } from "./components/DemoTools";
 import { MobileNavigation } from "./components/MobileNavigation";
+import { HumanMusicianManifestModal } from "./components/HumanMusicianManifestModal";
 import { useTranslation } from "react-i18next";
 import {
   initAuth,
@@ -556,6 +557,7 @@ export default function App() {
   const [selectedArtistForChat, setSelectedArtistForChat] =
     useState<Artist | null>(null);
   const [isAddArtistOpen, setIsAddArtistOpen] = useState(false);
+  const [showManifestModal, setShowManifestModal] = useState(false);
   const [selectedNDACert, setSelectedNDACert] = useState<Booking | null>(null);
   const [activeTransitBooking, setActiveTransitBooking] =
     useState<Booking | null>(null);
@@ -1449,6 +1451,22 @@ export default function App() {
           }
         }} 
       />
+      {/* 100% Menselijk & Fair Practice Announcement Ribbon */}
+      <aside aria-label="Muzikanten Belofte" className="bg-[#111111] border-b border-white/10 text-white py-2 px-3 sm:px-6 text-[10px] sm:text-xs font-mono flex items-center justify-between gap-3 overflow-x-auto scrollbar-none z-50 relative">
+        <div className="flex items-center gap-2.5 whitespace-nowrap mx-auto sm:mx-0">
+          <span className="inline-block w-2 h-2 rounded-full bg-[#D1FF26] animate-pulse shrink-0"></span>
+          <span className="font-bold text-white/90">
+            🛡️ 100% Menselijke Muzikanten • 0% AI-Audio • Kunstenbond Pop-CAO Beschermd
+          </span>
+        </div>
+        <button
+          onClick={() => setShowManifestModal(true)}
+          className="hidden sm:inline-flex items-center gap-1.5 text-black bg-[#D1FF26] hover:bg-white px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-wider whitespace-nowrap cursor-pointer transition shrink-0"
+        >
+          <span>Lees Ons Manifest</span> ➔
+        </button>
+      </aside>
+
       {/* Universal Top Header/Hero - Mobile Responsive */}
       <header className="border-b border-white/10 bg-[#0A0A0A]/95 sticky top-0 z-40 pt-safe">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
@@ -1703,6 +1721,13 @@ export default function App() {
                           className="bg-black/15 hover:bg-black/25 text-black text-xs font-black uppercase tracking-widest px-5 py-4 flex items-center justify-center gap-2 transition-colors cursor-pointer border border-black/30 rounded-lg"
                         >
                           <Target className="w-4 h-4" /> Ik Wil Gigs ➔
+                        </button>
+
+                        <button
+                          onClick={() => setShowManifestModal(true)}
+                          className="bg-white/40 hover:bg-white text-black text-xs font-black uppercase tracking-widest px-4 py-4 flex items-center justify-center gap-1.5 transition-colors cursor-pointer border border-black/20 rounded-lg shadow-sm"
+                        >
+                          🛡️ 100% Menselijk Manifest
                         </button>
 
                         <button
@@ -3022,6 +3047,7 @@ export default function App() {
               gigs={gigs}
               onApply={handleApplyToGig}
               onPostGig={handlePostGig}
+              onOpenManifest={() => setShowManifestModal(true)}
             />
           </div>
         )}
@@ -3204,6 +3230,16 @@ export default function App() {
       {/* Invite Network Modal */}
       {isInviteOpen && <InviteModal onClose={() => setIsInviteOpen(false)} />}
 
+      {/* 100% Menselijk Muzikanten Manifest Modal */}
+      <HumanMusicianManifestModal
+        isOpen={showManifestModal}
+        onClose={() => setShowManifestModal(false)}
+        onJoinClick={() => {
+          setViewMode("work");
+          setOnboardingPath("sessionist");
+        }}
+      />
+
       {/* Authentication Error Sandbox Assistant Modal */}
       {authError && (
         <AuthErrorModal
@@ -3221,6 +3257,12 @@ export default function App() {
       <footer className="bg-black border-t border-white/10 py-8 text-center text-[10px] text-white/30 font-mono tracking-widest mt-12 gap-2 flex flex-col items-center">
         <div>© 2026 SESSIECAT SYSTEM LTD. ALL RIGHTS SECURED BY ESCROW.</div>
         <div className="flex flex-wrap justify-center gap-4 text-white/30 uppercase tracking-widest text-[9px] mt-1.5">
+          <button
+            onClick={() => setShowManifestModal(true)}
+            className="hover:text-[#D1FF26] text-white/60 font-bold transition-colors cursor-pointer"
+          >
+            🛡️ 100% Menselijk Manifest
+          </button>
           <a href="#privacy" className="hover:text-[#D1FF26] transition-colors">
             Privacy Policy (GDPR)
           </a>

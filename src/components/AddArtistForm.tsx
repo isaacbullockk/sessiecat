@@ -86,7 +86,7 @@ export function AddArtistForm({ onClose, onAddArtist, artistToEdit }: AddArtistF
         body: JSON.stringify({ text: aiRawInput })
       });
       if (!response.ok) {
-        throw new Error('Could not contact Gemini AI service.');
+        throw new Error('Profielhulp service kon niet worden bereikt.');
       }
       const data = await response.json();
       
@@ -115,12 +115,12 @@ export function AddArtistForm({ onClose, onAddArtist, artistToEdit }: AddArtistF
       if (data.warning) {
         setAiSuccessMsg(data.warning);
       } else {
-        setAiSuccessMsg('✨ Magic Auto-Fill completed! Your profile details have been parsed and loaded.');
+        setAiSuccessMsg('⚡ Gegevens succesvol ingeladen en overgenomen in je profiel!');
       }
       setIsAiDrawerOpen(false);
     } catch (err: any) {
       console.error(err);
-      setValidationError('AI Auto-Fill encountered an error: ' + err.message);
+      setValidationError('Profielhulp fout: ' + err.message);
     } finally {
       setIsAiLoading(false);
     }
@@ -312,12 +312,12 @@ export function AddArtistForm({ onClose, onAddArtist, artistToEdit }: AddArtistF
                   <Sparkles className="w-5 h-5 text-[#AC6CFF] animate-pulse" />
                   <div>
                     <h4 className="text-xs font-black uppercase text-white tracking-wider flex items-center gap-1.5">
-                      <span>AI Profile Assistant</span>
+                      <span>Snelle Profielhulp (Bio & Repertoire)</span>
                       <span className="bg-[#AC6CFF]/20 text-[#AC6CFF] text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-none font-mono">
-                        Beta
+                        Handig
                       </span>
                     </h4>
-                    <p className="text-[10px] text-white/40 font-mono">Paste bio or raw notes to auto-populate this entire form instantly!</p>
+                    <p className="text-[10px] text-white/40 font-mono">Plak je bio, speelervaring of social media tekst om de velden direct in te vullen</p>
                   </div>
                 </div>
                 <button
@@ -325,7 +325,7 @@ export function AddArtistForm({ onClose, onAddArtist, artistToEdit }: AddArtistF
                   onClick={() => setIsAiDrawerOpen(!isAiDrawerOpen)}
                   className="px-3.5 py-2 bg-[#AC6CFF] text-black hover:bg-white text-[10px] font-black uppercase tracking-widest rounded-none transition-all duration-300 w-full sm:w-auto text-center"
                 >
-                  {isAiDrawerOpen ? 'Hide AI Builder' : '✨ Launch AI Builder'}
+                  {isAiDrawerOpen ? 'Verberg Hulp' : '⚡ Snel Inladen'}
                 </button>
               </div>
 
@@ -338,18 +338,18 @@ export function AddArtistForm({ onClose, onAddArtist, artistToEdit }: AddArtistF
               {isAiDrawerOpen && (
                 <div className="mt-4 pt-4 border-t border-white/5 space-y-3">
                   <label className="block text-[9px] font-mono text-white/50 uppercase tracking-widest font-bold">
-                    Raw Bio, Website Text, Resume, or Rough Notes:
+                    Bestaande bio, website-tekst of losse notities:
                   </label>
                   <textarea
                     rows={4}
                     value={aiRawInput}
                     onChange={(e) => setAiRawInput(e.target.value)}
-                    placeholder="e.g. I am Alex Rivers, a professional funk/jazz bass guitarist based in Amsterdam. I charge €65 per hour or €450 daily. I travel using my Urban Arrow Cargo bike, carry a Moog Subsequent 37 synth & Fender Jazz bass, and love experimental synth music. Instagram is @rivers_bass, web is alexrivers.com."
+                    placeholder="bijv. Ik ben Alex Rivers, bassist uit Amsterdam (funk, soul, jazz). Tarief €65/uur of €450/dag. Speel Fender Jazz en Moog Subsequent 37. Vervoer per Urban Arrow bakfiets. Insta @rivers_bass, web alexrivers.nl."
                     className="w-full bg-black border border-white/10 text-white placeholder-white/20 rounded-none px-3.5 py-2.5 text-xs focus:border-[#AC6CFF] outline-none transition"
                   />
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="text-[9px] text-white/30 font-mono leading-tight max-w-[100%] sm:max-w-[60%]">
-                      💡 <span className="text-white/50">Tip:</span> Paste your existing social media bios, Linktree details, or any text to skip manual typing.
+                      💡 <span className="text-white/50">Tip:</span> Plak je bestaande persbericht, Linktree of Instagram-bio om handmatig typwerk over te slaan.
                     </div>
                     <button
                       type="button"
@@ -364,12 +364,12 @@ export function AddArtistForm({ onClose, onAddArtist, artistToEdit }: AddArtistF
                       {isAiLoading ? (
                         <>
                           <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                          <span>Analyzing...</span>
+                          <span>Verwerken...</span>
                         </>
                       ) : (
                         <>
                           <Sparkles className="w-3.5 h-3.5 text-black" />
-                          <span>✨ Magic Auto-Fill</span>
+                          <span>⚡ Velden Invullen</span>
                         </>
                       )}
                     </button>
