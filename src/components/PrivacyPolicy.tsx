@@ -65,10 +65,11 @@ export function PrivacyPolicy() {
           <section className="space-y-4">
             <h2 className="text-xl font-bold uppercase tracking-widest text-[#D1FF26]">3. Data Subprocessors & Transfers</h2>
             <div className="prose prose-invert max-w-none text-white/70 font-sans leading-relaxed">
-              <p>Sessiecat utilizes secure third-party infrastructure. All subprocessors are compliant with international data transfer frameworks (including Standard Contractual Clauses - SCCs):</p>
+              <p>Sessiecat utilizes secure third-party infrastructure located within the EU or compliant with international data transfer frameworks (including Standard Contractual Clauses - SCCs):</p>
               <ul className="list-disc pl-5 space-y-2 mt-4 text-white/60">
-                <li><strong className="text-white">Google Cloud & Firebase:</strong> Authentication, cloud hosting, and real-time database storage.</li>
-                <li><strong className="text-white">Google Gemini AI:</strong> Processing raw bio/profile inputs for smart assistant features. Data processed via AI is not used for global model training.</li>
+                <li><strong className="text-white">Google Cloud & Firebase (EU / Europe-West):</strong> Authentication, cloud hosting, real-time database storage, and cryptographic session verification.</li>
+                <li><strong className="text-white">Smart Bio & Form Assistance (Google Cloud Vertex / GenAI):</strong> Transient processing of user-provided bio text for form formatting. Under strict enterprise API agreements, no user data, audio recordings, or artist likeness are ever used for model training or data harvesting.</li>
+                <li><strong className="text-white">Stripe / Escrow Infrastructure:</strong> PCI-DSS Level 1 compliant payment processing for Pop-CAO tour budgets and musician deposits.</li>
               </ul>
             </div>
           </section>
@@ -77,7 +78,7 @@ export function PrivacyPolicy() {
           <section className="space-y-4">
             <h2 className="text-xl font-bold uppercase tracking-widest text-[#D1FF26]">4. Data Retention Policy</h2>
             <div className="prose prose-invert max-w-none text-white/70 font-sans leading-relaxed">
-              <p>We retain active account data only for as long as your Sessiecat profile remains active. Anonymized visitor traffic logs are retained for a maximum of 30 days. If you request account deletion, all personal data is permanently purged within 14 days.</p>
+              <p>We retain active account data only for as long as your Sessiecat profile remains active. Anonymized visitor traffic logs are retained for a maximum of 30 days. If you request account deletion, all personal data is permanently purged immediately or within 14 days maximum.</p>
             </div>
           </section>
 
@@ -85,12 +86,12 @@ export function PrivacyPolicy() {
           <section className="space-y-4 bg-white/5 p-6 border border-white/10 rounded-lg">
             <h2 className="text-xl font-bold uppercase tracking-widest text-[#D1FF26]">5. Your Rights Under GDPR (Articles 15-22)</h2>
             <div className="prose prose-invert max-w-none text-white/70 font-sans leading-relaxed space-y-3">
-              <p>Under European data protection law, you hold the following rights regarding your data:</p>
+              <p>Under European data protection law (AVG / GDPR), you hold the following statutory rights regarding your data:</p>
               <ul className="list-disc pl-5 space-y-1.5 text-white/60 text-sm">
-                <li><strong>Right to Access & Portability (Art. 15 & 20):</strong> Request a downloadable machine-readable copy (JSON) of all data linked to your account.</li>
-                <li><strong>Right to Erasure / Right to be Forgotten (Art. 17):</strong> Request complete deletion of your account, musician profile, and session records.</li>
-                <li><strong>Right to Rectification (Art. 16):</strong> Update or correct your profile details anytime in Settings.</li>
-                <li><strong>Right to Withdraw Consent (Art. 7(3)):</strong> Reset your cookie consent preferences at any time.</li>
+                <li><strong>Right to Access & Portability (Art. 15 & 20):</strong> Request and download a complete machine-readable copy (JSON) of all data linked to your account via the GDPR Panel.</li>
+                <li><strong>Right to Erasure / Right to be Forgotten (Art. 17):</strong> Request complete, permanent deletion of your account, musician profile, and session records with one click.</li>
+                <li><strong>Right to Rectification (Art. 16):</strong> Update, correct, or refine your profile, rates, and gear details anytime in Settings.</li>
+                <li><strong>Right to Withdraw Consent (Art. 7(3)):</strong> Reset or withdraw your cookie and analytics consent preferences at any time.</li>
               </ul>
 
               <div className="pt-4 flex flex-wrap gap-3">
@@ -107,9 +108,24 @@ export function PrivacyPolicy() {
             </div>
           </section>
 
-          {/* Section 6 */}
+          {/* Section 6 - Security by Design */}
           <section className="space-y-4">
-            <h2 className="text-xl font-bold uppercase tracking-widest text-[#D1FF26]">6. Data Controller & DPO Contact</h2>
+            <h2 className="text-xl font-bold uppercase tracking-widest text-[#D1FF26]">6. Security & Privacy by Design (GDPR Article 25)</h2>
+            <div className="prose prose-invert max-w-none text-white/70 font-sans leading-relaxed space-y-3">
+              <p>In accordance with GDPR Article 25 ("Data protection by design and by default"), Sessiecat embeds technical safeguards into the architecture at every layer:</p>
+              <ul className="list-disc pl-5 space-y-2 text-white/60">
+                <li><strong className="text-white">Pseudonymization & Contact Masking:</strong> Email addresses and telephone numbers posted in communication channels are automatically sanitized and masked. Unconfirmed candidate holds show masked initials (e.g. <code>Al***</code>) to prevent data harvesting by third parties.</li>
+                <li><strong className="text-white">Granular Access Rules (Least Privilege):</strong> Database security rules enforce user isolation so that private profiles, contract documents, and payment details can only be written or edited by their verified owner.</li>
+                <li><strong className="text-white">Traffic Anonymization:</strong> IP addresses logged in server telemetry are truncated (last octet stripped), preventing identification of individual end-user devices.</li>
+                <li><strong className="text-white">Cryptographic Transport:</strong> 100% of data in transit is encrypted using TLS 1.3/HTTPS, fortified with strict Content Security Policies (CSP), HTTP Strict Transport Security (HSTS), and XSS prevention headers via Helmet.</li>
+                <li><strong className="text-white">Zero Model Training:</strong> Audio files, demo videos, and repertoire notes are never fed into public machine-learning pipelines or used to train generative models.</li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Section 7 */}
+          <section className="space-y-4">
+            <h2 className="text-xl font-bold uppercase tracking-widest text-[#D1FF26]">7. Data Controller & DPO Contact</h2>
             <div className="prose prose-invert max-w-none text-white/70 font-sans leading-relaxed">
               <p>The Data Controller for Sessiecat is Isaac Bullock. For any GDPR inquiries, data access requests, or deletion notices, please contact our Data Protection Team at:</p>
               <p className="mt-2 font-mono text-[#D1FF26] bg-black/50 p-3 border border-white/10 rounded inline-block">
