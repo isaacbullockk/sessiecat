@@ -1554,39 +1554,39 @@ export default function App() {
         {viewMode === "hire" && (
           <div className="flex border-b border-white/10 overflow-x-auto scrollbar-none font-mono text-[10.5px] uppercase tracking-wider font-bold bg-[#141414] p-1.5 select-none gap-2">
             {[
-              { id: "dashboard", label: "Dashboard Workspace", icon: Compass },
-              { id: "jams", label: "Bookers / Organisers", icon: Target },
+              { id: "dashboard", label: "⚡ Overzicht", icon: Compass },
+              { id: "jams", label: "🎪 Gigs & Oproepen", icon: Target },
               {
                 id: "tours",
-                label: "Tours Workspace",
+                label: "🚐 Tours & Data",
                 icon: Briefcase,
                 count: tours.length,
               },
               {
                 id: "artists",
-                label: "Browse Artists",
+                label: "🎸 Muzikanten",
                 icon: Users,
                 count: filteredArtists.length,
               },
               {
                 id: "holds",
-                label: "Rate Holds Console",
+                label: "⏱️ 24u Opties",
                 icon: Lock,
                 count: tours
                   .flatMap((t) => t.roleRequirements)
                   .filter((r) => r.status === "Hold").length,
               },
-              { id: "leadScraper", label: "AI Lead Scraper", icon: Search },
-              { id: "rehearsals", label: "Rehearsals Hub", icon: Calendar },
-              { id: "gear", label: "Local Gear Shops", icon: ShoppingBag },
+              { id: "rehearsals", label: "🥁 Repetities", icon: Calendar },
               {
                 id: "contracts",
-                label: "Digital Escrow CAO",
+                label: "💶 Pop-CAO & Escrow",
                 icon: ShieldCheck,
               },
-              { id: "finance", label: "Finance & Payroll", icon: Euro },
-              { id: "visitors", label: "Visitor Traffic", icon: Eye },
-              { id: "settings", label: "Cloud Vault & Chat", icon: Settings },
+              { id: "finance", label: "📊 Gage & Betaling", icon: Euro },
+              { id: "gear", label: "🔌 Gear & Reparaties", icon: ShoppingBag },
+              { id: "leadScraper", label: "🔍 Zalen & Boekers", icon: Search },
+              { id: "visitors", label: "📈 Bezoekers", icon: Eye },
+              { id: "settings", label: "💬 Chat & Berichten", icon: Settings },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = route.base === tab.id;
@@ -1631,7 +1631,7 @@ export default function App() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Sessionist Block */}
                   {myArtistProfile ? (
-                    <div className="bg-[#D1FF26] text-black border border-[#D1FF26] p-6 lg:p-8 flex flex-col justify-between gap-6 shadow-[0_0_40px_rgba(209,255,38,0.15)] relative overflow-hidden group">
+                    <div className="bg-[#D1FF26] text-black border border-[#D1FF26] p-6 lg:p-8 flex flex-col justify-between gap-6 shadow-[0_0_40px_rgba(209,255,38,0.15)] relative overflow-hidden group rounded-xl">
                       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay group-hover:scale-105 transition-transform duration-700"></div>
                       <div className="relative z-10 space-y-4">
                         <div className="flex items-center gap-4">
@@ -1640,54 +1640,54 @@ export default function App() {
                             alt={myArtistProfile.name}
                             textSeed={myArtistProfile.name}
                             fallbackType="avatar"
-                            className="w-16 h-16 object-cover border-2 border-black rounded-none shadow-lg"
+                            className="w-16 h-16 object-cover border-2 border-black rounded-lg shadow-lg"
                           />
                           <div>
-                            <span className="p-1 px-2 bg-black text-[#D1FF26] font-black uppercase text-[9px] tracking-widest font-mono">
-                              My Listing Status: {myArtistProfile.availability}
+                            <span className="p-1 px-2 bg-black text-[#D1FF26] font-black uppercase text-[9px] tracking-widest font-mono rounded">
+                              Mijn Status: {myArtistProfile.availability}
                             </span>
                             <h2 className="text-2xl font-black uppercase tracking-tighter mt-1 leading-none">
                               {myArtistProfile.name}
                             </h2>
-                            <p className="text-xs font-mono text-black/70 mt-1">
+                            <p className="text-xs font-mono text-black/70 mt-1 font-bold">
                               {myArtistProfile.instruments.join(" • ")}
                             </p>
                           </div>
                         </div>
-                        <p className="text-xs font-mono text-black/70 max-w-sm leading-relaxed line-clamp-2">
+                        <p className="text-xs font-mono text-black/80 max-w-sm leading-relaxed line-clamp-2">
                           {myArtistProfile.bio}
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-2 relative z-10 mt-2">
                         <button
                           onClick={() => setIsAddArtistOpen(true)}
-                          className="bg-black hover:bg-neutral-900 text-[#D1FF26] text-[10px] font-black uppercase tracking-widest px-5 py-3.5 flex items-center justify-center gap-2 transition-colors cursor-pointer border border-transparent shadow-xl"
+                          className="bg-black hover:bg-neutral-900 text-[#D1FF26] text-[10px] font-black uppercase tracking-widest px-5 py-3.5 flex items-center justify-center gap-2 transition-colors cursor-pointer border border-transparent shadow-xl rounded-lg"
                         >
-                          <Settings className="w-4 h-4" /> Edit My Profile
+                          <Settings className="w-4 h-4" /> Profiel Bewerken
                         </button>
                         <button
                           onClick={() => {
                             setViewMode("work");
                             setOnboardingPath("sessionist");
                           }}
-                          className="bg-white/20 hover:bg-white/35 text-black text-[10px] font-black uppercase tracking-widest px-5 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer border border-black/25"
+                          className="bg-white/20 hover:bg-white/35 text-black text-[10px] font-black uppercase tracking-widest px-5 py-3.5 flex items-center justify-center gap-2 transition-all cursor-pointer border border-black/25 rounded-lg"
                         >
-                          <User className="w-4 h-4" /> Find Gigs
+                          <User className="w-4 h-4" /> Gigs Vinden
                         </button>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-[#D1FF26] text-black border border-[#D1FF26] p-6 lg:p-8 flex flex-col justify-between gap-6 shadow-[0_0_40px_rgba(209,255,38,0.15)] relative overflow-hidden group">
+                    <div className="bg-[#D1FF26] text-black border border-[#D1FF26] p-6 lg:p-8 flex flex-col justify-between gap-6 shadow-[0_0_40px_rgba(209,255,38,0.15)] relative overflow-hidden group rounded-xl">
                       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay group-hover:scale-105 transition-transform duration-700"></div>
                       <div className="relative z-10">
+                        <div className="text-[10px] font-mono uppercase tracking-widest font-black bg-black text-[#D1FF26] px-2 py-0.5 inline-block rounded mb-2">
+                          Voor Muzikanten 🎸
+                        </div>
                         <h2 className="text-3xl font-black uppercase tracking-tighter mb-2">
-                          Join as a Sessiecat
+                          Word een Sessiecat
                         </h2>
-                        <p className="text-sm font-medium font-mono text-black/70 max-w-sm leading-relaxed">
-                          Lend out your equipment, set your interactive rate
-                          cards, process rapid bookings, and secure exclusive
-                          touring and live sessions. Get verified and hired
-                          immediately.
+                        <p className="text-sm font-medium font-mono text-black/80 max-w-sm leading-relaxed">
+                          Nooit meer gratis je agenda blokkeren. Krijg betaalde aanvragen, stel je eigen gage in en word gegarandeerd uitbetaald via de officiële Pop-CAO.
                         </p>
                       </div>
                       <div className="flex flex-wrap items-center gap-4 relative z-10 mt-4">
@@ -1696,47 +1696,46 @@ export default function App() {
                             setViewMode("work");
                             setOnboardingPath("sessionist");
                           }}
-                          className="bg-black hover:bg-neutral-900 text-[#D1FF26] text-xs font-black uppercase tracking-widest px-6 py-4 flex items-center justify-center gap-3 transition-colors cursor-pointer border border-transparent shadow-xl"
+                          className="bg-black hover:bg-neutral-900 text-[#D1FF26] text-xs font-black uppercase tracking-widest px-6 py-4 flex items-center justify-center gap-3 transition-colors cursor-pointer border border-transparent shadow-xl rounded-lg"
                         >
-                          <User className="w-5 h-5" /> Let's Get to Work
+                          <User className="w-5 h-5" /> Ik Wil Gigs Spelen ➔
                         </button>
 
                         <button
                           onClick={() => {
                             setViewMode("hire");
-                            // Navigate to artists view
                             navigateTo("artists");
                             setSuccessBanner(
-                              "Find your listing below, then click the purple 'Claim Listing (Link to Account)' button to manage it!"
+                              "Zoek je naam in de lijst en klik op 'Claim Profiel' om je account te koppelen!"
                             );
                           }}
                           className="text-black/80 hover:text-black font-mono text-xs font-bold underline uppercase tracking-wider transition-colors cursor-pointer"
                         >
-                          Already registered? Search & claim profile
+                          Al geregistreerd? Zoek & claim profiel
                         </button>
                       </div>
                     </div>
                   )}
 
                   {/* Bookers & Organisers Block */}
-                  <div className="bg-[#AC6CFF] text-black border border-[#AC6CFF] p-6 lg:p-8 flex flex-col justify-between gap-6 shadow-[0_0_40px_rgba(172,108,255,0.15)] relative overflow-hidden group">
+                  <div className="bg-[#AC6CFF] text-black border border-[#AC6CFF] p-6 lg:p-8 flex flex-col justify-between gap-6 shadow-[0_0_40px_rgba(172,108,255,0.15)] relative overflow-hidden group rounded-xl">
                     <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay group-hover:scale-105 transition-transform duration-700"></div>
                     <div className="relative z-10">
+                      <div className="text-[10px] font-mono uppercase tracking-widest font-black bg-black text-[#AC6CFF] px-2 py-0.5 inline-block rounded mb-2">
+                        Voor Bandleiders & Zalen 🎹
+                      </div>
                       <h2 className="text-3xl font-black uppercase tracking-tighter mb-2">
-                        Bookers / Organisers
+                        Bandleiders & Boekers
                       </h2>
-                      <p className="text-sm font-medium font-mono text-black/70 max-w-sm leading-relaxed">
-                        Create events, share automated WhatsApp claim links, and
-                        build rosters instantly without chasing people down in
-                        groups. Ideal for session runners, festival organisers,
-                        and live DJs holding rosters.
+                      <p className="text-sm font-medium font-mono text-black/80 max-w-sm leading-relaxed">
+                        Binnen 5 minuten een complete ritmesectie geregeld. Zet 24-uurs opties vast bij drummers en bassisten zonder eindeloos gedoe in WhatsApp-groepjes.
                       </p>
                     </div>
                     <button
                       onClick={() => navigateTo("jams")}
-                      className="relative z-10 self-start bg-black hover:bg-neutral-900 text-[#AC6CFF] text-xs font-black uppercase tracking-widest px-6 py-4 flex items-center justify-center gap-3 transition-colors cursor-pointer border border-transparent shadow-xl"
+                      className="relative z-10 self-start bg-black hover:bg-neutral-900 text-[#AC6CFF] text-xs font-black uppercase tracking-widest px-6 py-4 flex items-center justify-center gap-3 transition-colors cursor-pointer border border-transparent shadow-xl rounded-lg"
                     >
-                      <Target className="w-5 h-5" /> Create an Event
+                      <Target className="w-5 h-5" /> Plaats een Oproep / Gig ➔
                     </button>
                   </div>
                 </div>
@@ -1748,49 +1747,49 @@ export default function App() {
                 />
 
                 {/* Exclusive Competition Shield & Production Reputation Scorecard */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white/5 border border-white/10 p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white/5 border border-white/10 p-6 rounded-xl">
                   {/* Competition Shield Sector */}
                   <div className="space-y-3 lg:col-span-2">
                     <div className="flex items-center gap-2">
-                      <span className="bg-brand-accent/20 border border-brand-accent/30 text-brand-accent text-[9px] font-mono px-2 py-0.5 uppercase font-bold tracking-widest">
-                        🔒 ACTIVE STATUS: ESCROW SECURED
+                      <span className="bg-[#D1FF26]/20 border border-[#D1FF26]/30 text-[#D1FF26] text-[9px] font-mono px-2 py-0.5 uppercase font-bold tracking-widest rounded">
+                        🔒 STATUS: ESCROW BEVEILIGD
                       </span>
                     </div>
-                    <h3 className="text-base font-extrabold uppercase tracking-tight text-white font-sans">
-                      Exclusive Booking Hold Shield
+                    <h3 className="text-base font-extrabold uppercase tracking-tight text-white font-sans flex items-center gap-2">
+                      <span>⏱️</span> 24-Uurs Optie Garantie
                     </h3>
-                    <p className="text-xs text-white/60 leading-relaxed font-light">
-                      Securing rate holds ensures touring agents and event
-                      bookers confirm full line-ups without sudden competition
-                      markup. Holds legally lock the show contracts, bypassing
-                      uncoordinated side negotiation.
+                    <p className="text-xs text-white/70 leading-relaxed font-light">
+                      Geen vage afspraken meer: als je een optie aanvraagt, heeft de muzikant 24 uur om te reageren. Reageert iemand niet? Dan schuift de backup-muzikant direct door. Het geld staat veilig gereserveerd tot na de show.
                     </p>
                     <div className="flex flex-wrap gap-2 pt-1">
-                      <span className="text-[10px] text-[#D1FF26] font-mono bg-white/5 px-2.5 py-1 border border-white/10 uppercase font-semibold">
-                        🔒 Rate Holds Enabled
+                      <span className="text-[10px] text-[#D1FF26] font-mono bg-white/5 px-2.5 py-1 border border-white/10 uppercase font-semibold rounded">
+                        ⏱️ 24u Countdown Timer Actief
                       </span>
-                      <span className="text-[10px] text-[#AC6CFF] font-mono bg-white/5 px-2.5 py-1 border border-white/10 uppercase font-semibold">
-                        🛡️ Mutual NDA Active
+                      <span className="text-[10px] text-[#AC6CFF] font-mono bg-white/5 px-2.5 py-1 border border-white/10 uppercase font-semibold rounded">
+                        💶 Pop-CAO Eerlijke Gage
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-mono bg-white/5 px-2.5 py-1 border border-white/10 uppercase font-semibold rounded">
+                        🛡️ Escrow Geldgarantie
                       </span>
                     </div>
                   </div>
 
                   {/* Client Reputation scorecard */}
-                  <div className="bg-black/40 border border-white/10 p-4.5 flex flex-col justify-between space-y-3.5">
+                  <div className="bg-black/40 border border-white/10 p-4.5 flex flex-col justify-between space-y-3.5 rounded-xl">
                     <div>
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest font-black">
-                          [ MY PROFILE ENDORSEMENTS ]
+                          [ BEOORDELINGEN ]
                         </span>
-                        <span className="flex items-center gap-1 font-mono text-brand-accent text-xs font-black bg-brand-accent/15 border border-brand-accent/30 px-2 py-0.5">
+                        <span className="flex items-center gap-1 font-mono text-brand-accent text-xs font-black bg-brand-accent/15 border border-brand-accent/30 px-2 py-0.5 rounded">
                           ★ 5.0 Rating
                         </span>
                       </div>
                       <h4 className="text-xs font-mono uppercase font-black text-white mt-3 select-none">
-                        Taylor Agency & Productions
+                        Geverifieerde Producties
                       </h4>
-                      <div className="text-[10px] text-white/40 font-mono mt-1 font-sans">
-                        In-app credentials endorsed by verified local artists
+                      <div className="text-[10px] text-white/50 font-mono mt-1 font-sans">
+                        Beoordeeld door professionele sessiemuzikanten
                       </div>
                     </div>
 
@@ -1798,11 +1797,11 @@ export default function App() {
                       <button
                         id="toggle-client-reviews-btn"
                         onClick={() => setShowClientReviews(!showClientReviews)}
-                        className="flex-grow py-2 px-3 text-[9px] font-mono font-black border border-white/10 hover:border-brand-accent bg-black text-white/70 hover:text-white uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-grow py-2 px-3 text-[9px] font-mono font-black border border-white/10 hover:border-brand-accent bg-black text-white/70 hover:text-white uppercase tracking-widest transition-all cursor-pointer rounded"
                       >
                         {showClientReviews
-                          ? "Hide Endorsements ▲"
-                          : "View Endorsements ▼"}
+                          ? "Sluit Reviews ▲"
+                          : "Bekijk Reviews ▼"}
                       </button>
                     </div>
                   </div>

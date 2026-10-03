@@ -60,21 +60,21 @@ export function MobileNavigation({
   }
 
   const primaryTabs: NavItem[] = [
-    { id: "dashboard", label: "Explore", icon: Compass },
-    { id: "tours", label: "Tours", icon: Briefcase, count: toursCount },
-    { id: "holds", label: "Holds", icon: Lock, count: holdsCount },
-    { id: "jams", label: "Gigs", icon: Target },
+    { id: "dashboard", label: "Overzicht ⚡", icon: Compass },
+    { id: "jams", label: "Gigs 🎪", icon: Target },
+    { id: "holds", label: "24u Opties ⏱️", icon: Lock, count: holdsCount },
+    { id: "tours", label: "Tours 🚐", icon: Briefcase, count: toursCount },
   ];
 
   const secondaryModules: NavItem[] = [
-    { id: "artists", label: "Browse Artists", icon: Users },
-    { id: "leadScraper", label: "AI Lead Scraper", icon: Search },
-    { id: "rehearsals", label: "Rehearsals Hub", icon: Calendar },
-    { id: "gear", label: "Local Gear Shops", icon: ShoppingBag },
-    { id: "contracts", label: "Digital Escrow CAO", icon: ShieldCheck },
-    { id: "finance", label: "Finance & Payroll", icon: Euro },
-    { id: "visitors", label: "Visitor Traffic", icon: Eye },
-    { id: "settings", label: "Cloud Vault & Chat", icon: Settings },
+    { id: "artists", label: "Muzikanten Zoeken 🎸", icon: Users },
+    { id: "contracts", label: "Pop-CAO & Escrow 💶", icon: ShieldCheck },
+    { id: "rehearsals", label: "Repetities Hub 🥁", icon: Calendar },
+    { id: "finance", label: "Gage & Betaling 📊", icon: Euro },
+    { id: "gear", label: "Gear & Reparaties 🔌", icon: ShoppingBag },
+    { id: "leadScraper", label: "Zalen & Boekers 🔍", icon: Search },
+    { id: "visitors", label: "Bezoekersgids 🐱", icon: Eye },
+    { id: "settings", label: "Chat & Berichten 💬", icon: Settings },
   ];
 
   return (
