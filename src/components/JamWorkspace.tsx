@@ -18,6 +18,7 @@ export function JamWorkspace({
   const [activeTab, setActiveTab] = useState<'roster' | 'create'>('roster');
   const [selectedJamId, setSelectedJamId] = useState<string | null>(null);
   const [isAutoPiloting, setIsAutoPiloting] = useState(false);
+  const [autoPilotStatus, setAutoPilotStatus] = useState<string | null>(null);
 
   // Form states
   const [jamTemplate, setJamTemplate] = useState<'standard' | 'mahler'>('standard');
@@ -261,10 +262,12 @@ Claim a slot: ${claimUrl}`;
         }
       }
 
-      alert(`🤖 Auto-Pilot Mission Complete:\n\n${data.response}\n\nProcessed ${heldSlotsCount} new holds for ${jam.name}. Roles are now blocked waiting for verification.`);
+      setAutoPilotStatus(`🤖 Auto-Pilot Voltooid: ${heldSlotsCount} nieuwe opties vergrendeld voor ${jam.name}.`);
+      setTimeout(() => setAutoPilotStatus(null), 8000);
     } catch(err) {
       console.error(err);
-      alert("Auto-Pilot encountered a cloud error.");
+      setAutoPilotStatus("Auto-Pilot kon niet worden voltooid.");
+      setTimeout(() => setAutoPilotStatus(null), 5000);
     } finally {
       setIsAutoPiloting(false);
     }
@@ -277,6 +280,12 @@ Claim a slot: ${claimUrl}`;
 
     return (
       <div className="space-y-6">
+        {autoPilotStatus && (
+          <div className="bg-[#D1FF26]/10 border border-[#D1FF26]/40 text-[#D1FF26] p-4 text-xs font-mono font-bold rounded-lg animate-fade-in flex items-center justify-between">
+            <span>{autoPilotStatus}</span>
+            <button onClick={() => setAutoPilotStatus(null)} className="text-white/60 hover:text-white ml-4">✕</button>
+          </div>
+        )}
         <div className="bg-neutral-900 border border-white/10 p-5 flex flex-col gap-3">
           <div className="flex justify-between items-start">
             <div>

@@ -163,22 +163,22 @@ export function GearShops() {
               </div>
               
               <div className="mt-auto grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => alert(`Opening maps for directions to ${shop.name}...`)}
-                  className="bg-brand-accent/10 border border-brand-accent/20 hover:bg-brand-accent hover:text-black hover:border-brand-accent text-brand-accent font-mono text-[10px] uppercase font-bold py-2.5 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.name + ' ' + shop.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-brand-accent/10 border border-brand-accent/20 hover:bg-brand-accent hover:text-black hover:border-brand-accent text-brand-accent font-mono text-[10px] uppercase font-bold py-2.5 flex items-center justify-center gap-1.5 transition-all cursor-pointer text-center"
                 >
                   <Navigation className="w-3 h-3" />
-                  Navigate
-                </button>
-                <button
-                  type="button"
-                  onClick={() => alert(`Calling ${shop.name} at ${shop.phone}...`)}
-                  className="bg-black border border-white/10 hover:border-white/30 text-white/70 hover:text-white font-mono text-[10px] uppercase font-bold py-2.5 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  Navigeer
+                </a>
+                <a
+                  href={`tel:${shop.phone.replace(/[^0-9+]/g, '')}`}
+                  className="bg-black border border-white/10 hover:border-white/30 text-white/70 hover:text-white font-mono text-[10px] uppercase font-bold py-2.5 flex items-center justify-center gap-1.5 transition-all cursor-pointer text-center"
                 >
                   <Phone className="w-3 h-3" />
-                  Call Shop
-                </button>
+                  Bel Winkel
+                </a>
               </div>
             </div>
           </div>

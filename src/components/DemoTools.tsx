@@ -6,9 +6,11 @@ import { INITIAL_ARTISTS, INITIAL_BOOKINGS, INITIAL_GIGS } from '../mockData';
 
 export function DemoTools({ onClose }: { onClose: () => void }) {
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const handleSeedData = async () => {
     setLoadingAction('seed');
+    setStatusMessage(null);
     try {
       const batch = writeBatch(db);
       
@@ -25,7 +27,7 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
         batch.set(doc(db, "bookings", b.id), b);
       });
 
-      // Dummy Tours for Martijn demo
+      // Dummy Tours for demo
       const demoTourId = "demo_tour_martijn";
       batch.set(doc(db, "tours", demoTourId), {
         id: demoTourId,
@@ -40,9 +42,9 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
       });
 
       await batch.commit();
-      alert("✅ Demo data successfully seeded!");
+      setStatusMessage("✅ Demo data succesvol geladen!");
     } catch (err: any) {
-      alert("Error seeding data: " + err.message);
+      setStatusMessage("Fout bij laden data: " + err.message);
     } finally {
       setLoadingAction(null);
     }
@@ -50,6 +52,7 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
 
   const handleSimulateAcceptance = async () => {
     setLoadingAction('simulate');
+    setStatusMessage(null);
     try {
       const bookingsRef = collection(db, "bookings");
       const snap = await getDocs(bookingsRef);
@@ -66,20 +69,20 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
 
       if (count > 0) {
         await batch.commit();
-        alert(`✅ Automatically accepted ${count} pending holds!`);
+        setStatusMessage(`✅ ${count} openstaande opties automatisch geaccepteerd!`);
       } else {
-        alert("No pending holds to accept.");
+        setStatusMessage("Geen openstaande opties gevonden.");
       }
     } catch (err: any) {
-      alert("Error: " + err.message);
+      setStatusMessage("Fout: " + err.message);
     } finally {
       setLoadingAction(null);
     }
   };
 
   const handleClearData = async () => {
-    if (!confirm("Are you sure? This will delete ALL artists, tours, gigs, and bookings from the database!")) return;
     setLoadingAction('clear');
+    setStatusMessage(null);
     try {
       const collections = ["artists", "tours", "gigs", "bookings", "chats", "events"];
       
@@ -92,9 +95,9 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
         await batch.commit();
       }
       
-      alert("🗑️ Database wiped clean!");
+      setStatusMessage("🗑️ Database succesvol opgeschoond!");
     } catch (err: any) {
-      alert("Error clearing data: " + err.message);
+      setStatusMessage("Fout bij opschonen: " + err.message);
     } finally {
       setLoadingAction(null);
     }
@@ -102,7 +105,7 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-fade-in shadow-2xl">
-      <div className="bg-neutral-900 border border-[#D1FF26]/30 p-4 w-72 flex flex-col gap-4 shadow-[0_0_30px_rgba(209,255,38,0.15)] relative overflow-hidden">
+      <div className="bg-neutral-900 border border-[#D1FF26]/30 p-4 w-72 flex flex-col gap-4 shadow-[0_0_30px_rgba(209,255,38,0.15)] relative overflow-hidden rounded-xl">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D1FF26] to-[#AC6CFF]" />
         
         <div className="flex justify-between items-center">
@@ -110,45 +113,51 @@ export function DemoTools({ onClose }: { onClose: () => void }) {
             <Settings className="w-4 h-4" />
             Demo Controls
           </h3>
-          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-white/40 hover:text-white transition-colors cursor-pointer">
             <X className="w-4 h-4" />
           </button>
         </div>
+
+        {statusMessage && (
+          <div className="p-2.5 bg-black/60 border border-white/20 text-white font-mono text-[10px] rounded leading-tight">
+            {statusMessage}
+          </div>
+        )}
 
         <div className="space-y-2">
           {/* Action 1: Seed Data */}
           <button
             disabled={loadingAction !== null}
             onClick={handleSeedData}
-            className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-[10px] uppercase tracking-wider py-2.5 px-3 flex items-center gap-3 transition-colors text-left disabled:opacity-50"
+            className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-[10px] uppercase tracking-wider py-2.5 px-3 flex items-center gap-3 transition-colors text-left disabled:opacity-50 cursor-pointer rounded"
           >
             {loadingAction === 'seed' ? <Loader2 className="w-4 h-4 animate-spin text-[#D1FF26]" /> : <Database className="w-4 h-4 text-[#D1FF26]" />}
-            1. Populate Mock Data
+            1. Laad Demo Data
           </button>
 
           {/* Action 2: Simulate Accept */}
           <button
             disabled={loadingAction !== null}
             onClick={handleSimulateAcceptance}
-            className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-[10px] uppercase tracking-wider py-2.5 px-3 flex items-center gap-3 transition-colors text-left disabled:opacity-50"
+            className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-mono text-[10px] uppercase tracking-wider py-2.5 px-3 flex items-center gap-3 transition-colors text-left disabled:opacity-50 cursor-pointer rounded"
           >
             {loadingAction === 'simulate' ? <Loader2 className="w-4 h-4 animate-spin text-emerald-400" /> : <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
-            2. Auto-Accept All Holds
+            2. Accepteer Alle Opties
           </button>
 
           {/* Action 3: Clear Data */}
           <button
             disabled={loadingAction !== null}
             onClick={handleClearData}
-            className="w-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-white font-mono text-[10px] uppercase tracking-wider py-2.5 px-3 flex items-center gap-3 transition-colors text-left disabled:opacity-50"
+            className="w-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-white font-mono text-[10px] uppercase tracking-wider py-2.5 px-3 flex items-center gap-3 transition-colors text-left disabled:opacity-50 cursor-pointer rounded"
           >
             {loadingAction === 'clear' ? <Loader2 className="w-4 h-4 animate-spin text-red-500" /> : <Trash2 className="w-4 h-4 text-red-500" />}
-            3. Reset / Wipe Database
+            3. Schoon Database Op
           </button>
         </div>
         
-        <p className="text-[9px] text-white/30 font-mono text-center leading-tight">
-          Use these to instantly set up a demo scenario for Martijn.
+        <p className="text-[9px] text-white/40 font-mono text-center leading-tight">
+          Sneltoetsen voor live demo en testsessies.
         </p>
       </div>
     </div>

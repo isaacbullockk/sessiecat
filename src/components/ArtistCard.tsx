@@ -81,6 +81,7 @@ export function ArtistCard({
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showReviews, setShowReviews] = useState(false);
+  const [cardFeedback, setCardFeedback] = useState<string | null>(null);
 
   // Workspace integration states
   const [selectedTourId, setSelectedTourId] = useState<string>(
@@ -227,6 +228,11 @@ export function ArtistCard({
       </button>
 
       {/* Main Card Body */}
+      {cardFeedback && (
+        <div className="bg-[#D1FF26] text-black font-mono font-bold text-[10px] uppercase px-3 py-1.5 text-center animate-fade-in shadow-md">
+          {cardFeedback}
+        </div>
+      )}
       <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
         <div>
           {/* Avatar and Name Above fold */}
@@ -608,11 +614,10 @@ export function ArtistCard({
                       />
                       <button
                         type="button"
-                        onClick={() =>
-                          alert(
-                            `Launching visual playback for: "${vClip.title}" (${vClip.duration})`,
-                          )
-                        }
+                        onClick={() => {
+                          setCardFeedback(`Demo gestart: ${vClip.title}`);
+                          setTimeout(() => setCardFeedback(null), 3000);
+                        }}
                         className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-[#D1FF26] hover:scale-110 transition cursor-pointer"
                       >
                         <Play className="w-6 h-6 fill-current" />
@@ -621,11 +626,10 @@ export function ArtistCard({
                   ) : (
                     <button
                       type="button"
-                      onClick={() =>
-                        alert(
-                          `Launching visual playback for: "${vClip.title}" (${vClip.duration} session duration)`,
-                        )
-                      }
+                      onClick={() => {
+                        setCardFeedback(`Demo gestart: ${vClip.title}`);
+                        setTimeout(() => setCardFeedback(null), 3000);
+                      }}
                       className="text-left p-2.5 hover:bg-brand-accent/5 hover:border-brand-accent/20 cursor-pointer h-16 flex flex-col justify-between"
                     >
                       <div className="text-[10px] font-sans font-bold text-white/90 group-hover/v:text-brand-accent line-clamp-2 leading-tight uppercase tracking-tight">
@@ -909,9 +913,8 @@ export function ArtistCard({
 
                 <button
                   onClick={() => {
-                    alert(
-                      `Requested 60 min Hold for ${artist.name} on jam ${currentJamId}`,
-                    );
+                    setCardFeedback(`⏱️ 60 min optie aangevraagd voor ${artist.name}`);
+                    setTimeout(() => setCardFeedback(null), 4000);
                   }}
                   className="col-span-2 py-2.5 bg-amber-400 hover:bg-amber-300 text-black text-xs font-black uppercase tracking-wider rounded-none flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
@@ -960,7 +963,8 @@ export function ArtistCard({
                       activeRate.ratePerShow,
                     );
                   } else {
-                    alert(`Requested 24h Hold for ${artist.name}`);
+                    setCardFeedback(`🔒 24u Optie aangevraagd voor ${artist.name}`);
+                    setTimeout(() => setCardFeedback(null), 4000);
                   }
                 }}
                 className="col-span-2 py-2.5 bg-[#D1FF26] hover:bg-white text-black text-xs font-black uppercase tracking-wider rounded-none flex items-center justify-center gap-1.5 transition-all cursor-pointer"

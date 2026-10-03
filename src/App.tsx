@@ -886,10 +886,6 @@ export default function App() {
 
       const token = await getAccessToken();
       if (token) {
-        const confirmed = window.confirm(
-          `Do you want to block out these dates for ${bookingData.artistName} in your authorized Google Calendar?`
-        );
-        if (confirmed) {
           const dates = bookingData.dateRange !== "TBD" ? bookingData.dateRange.split(' - ') : [];
           // Parse start and end dates simply
           let startDate = new Date();
@@ -928,7 +924,6 @@ export default function App() {
              console.error("Calendar insertion failed:", await res.text());
              setSuccessBanner(`Contract confirmed, but failed to sync to Calendar (missing permissions?)`);
           }
-        }
       }
     } catch (err) {
       console.warn("Could not save to firestore, keeping local mock state:", err);
@@ -1478,8 +1473,8 @@ export default function App() {
                     : "text-white/50 hover:text-white"
                 }`}
               >
-                <span className="sm:hidden">Hire</span>
-                <span className="hidden sm:inline">{t('nav.artists', 'Find Sessiecats')}</span>
+                <span className="sm:hidden">Boeken</span>
+                <span className="hidden sm:inline">Muzikanten Boeken</span>
               </button>
               <button
                 id="switch-view-work"
@@ -1490,8 +1485,8 @@ export default function App() {
                     : "text-white/50 hover:text-white"
                 }`}
               >
-                <span className="sm:hidden">Gigs</span>
-                <span className="hidden sm:inline">{t('nav.jams', 'Find Gigs')}</span>
+                <span className="sm:hidden">Spelen / Gigs</span>
+                <span className="hidden sm:inline">Ik Wil Spelen / Gigs</span>
               </button>
             </div>
 
@@ -1690,15 +1685,24 @@ export default function App() {
                           Nooit meer gratis je agenda blokkeren. Krijg betaalde aanvragen, stel je eigen gage in en word gegarandeerd uitbetaald via de officiële Pop-CAO.
                         </p>
                       </div>
-                      <div className="flex flex-wrap items-center gap-4 relative z-10 mt-4">
+                      <div className="flex flex-wrap items-center gap-3 relative z-10 mt-4">
                         <button
                           onClick={() => {
                             setViewMode("work");
                             setOnboardingPath("sessionist");
                           }}
-                          className="bg-black hover:bg-neutral-900 text-[#D1FF26] text-xs font-black uppercase tracking-widest px-6 py-4 flex items-center justify-center gap-3 transition-colors cursor-pointer border border-transparent shadow-xl rounded-lg"
+                          className="bg-black hover:bg-neutral-900 text-[#D1FF26] text-xs font-black uppercase tracking-widest px-6 py-4 flex items-center justify-center gap-2.5 transition-colors cursor-pointer border border-transparent shadow-xl rounded-lg"
                         >
-                          <User className="w-5 h-5" /> Ik Wil Gigs Spelen ➔
+                          <User className="w-5 h-5" /> Ik Wil Spelen ➔
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setViewMode("work");
+                          }}
+                          className="bg-black/15 hover:bg-black/25 text-black text-xs font-black uppercase tracking-widest px-5 py-4 flex items-center justify-center gap-2 transition-colors cursor-pointer border border-black/30 rounded-lg"
+                        >
+                          <Target className="w-4 h-4" /> Ik Wil Gigs ➔
                         </button>
 
                         <button
@@ -1711,7 +1715,7 @@ export default function App() {
                           }}
                           className="text-black/80 hover:text-black font-mono text-xs font-bold underline uppercase tracking-wider transition-colors cursor-pointer"
                         >
-                          Al geregistreerd? Zoek & claim profiel
+                          Al geregistreerd? Claim profiel
                         </button>
                       </div>
                     </div>
@@ -1971,8 +1975,6 @@ export default function App() {
                    try {
                      const token = await getAccessToken();
                      if (token && newBookings.length > 0) {
-                        const confirmed = window.confirm(`Do you want to block out these dates for ${newBookings.length} sessionists in your Google Calendar?`);
-                        if (confirmed) {
                            for (const b of newBookings) {
                               const event = {
                                  summary: `[Sessiecat] Tour Contract: ${b.artistName}`,
@@ -1985,7 +1987,6 @@ export default function App() {
                                  headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
                                  body: JSON.stringify(event)
                               });
-                           }
                            setSuccessBanner(`Payment secured. Booked ${newBookings.length} sessions & synced to Google Calendar!`);
                            return;
                         }
@@ -2425,8 +2426,8 @@ export default function App() {
                                     ) : (
                                       <button
                                         onClick={() =>
-                                          alert(
-                                            `Now streaming: ${sample.title} (${sample.duration})`,
+                                          setSuccessBanner(
+                                            `Afspelen audio: ${sample.title} (${sample.duration})`,
                                           )
                                         }
                                         className="p-2 border border-brand-accent/20 hover:border-[#D1FF26] text-[#D1FF26] hover:bg-[#D1FF26] hover:text-black transition uppercase font-mono text-[9px] font-bold cursor-pointer shrink-0"
@@ -2495,8 +2496,8 @@ export default function App() {
                                                 </div>
                                                 <button
                                                   onClick={() =>
-                                                    alert(
-                                                      `Simulating playback for video: "${vClip.title}"`,
+                                                    setSuccessBanner(
+                                                      `Video demo gestart: "${vClip.title}"`,
                                                     )
                                                   }
                                                   className="p-3 bg-brand-accent text-black rounded-full hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-lg z-10"
@@ -2680,8 +2681,8 @@ export default function App() {
                                             </div>
                                             <button
                                               onClick={() =>
-                                                alert(
-                                                  `Requested to rent ${eq.name} from ${selectedArtist.name} for €${eq.pricePerDay}/day.`,
+                                                setSuccessBanner(
+                                                  `Huuraanvraag verzonden voor ${eq.name} aan ${selectedArtist.name} (€${eq.pricePerDay}/dag).`,
                                                 )
                                               }
                                               className="px-4 py-2 border border-brand-accent text-brand-accent hover:bg-brand-accent hover:text-black uppercase font-mono text-[10px] font-bold transition-colors cursor-pointer"

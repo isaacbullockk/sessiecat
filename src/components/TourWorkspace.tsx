@@ -84,6 +84,7 @@ export function TourWorkspace({
   const [csNotes, setCsNotes] = useState('Backstage load-in is located at the rear canal dock side. Strictly complies with CAO Popmuziek catering standards. Roster compliance forms are pre-locked in Workspace.');
   const [csEmergencyContact, setCsEmergencyContact] = useState('+31 6 4488 9911 (Tour Coordinator)');
   const [csShareUrl, setCsShareUrl] = useState('');
+  const [csCopied, setCsCopied] = useState(false);
   const [csNotifySuccess, setCsNotifySuccess] = useState(false);
   const [csBroadcastLogs, setCsBroadcastLogs] = useState<string[]>([]);
   const [isBroadcasting, setIsBroadcasting] = useState(false);
@@ -923,12 +924,8 @@ export function TourWorkspace({
                         <div className="flex justify-end gap-1.5 pt-1">
                           {req.status !== 'Open' && (
                             <button
-                              onClick={() => {
-                                if(confirm("Are you sure you want to release this artist role?")) {
-                                  handleReleaseHold(req.id);
-                                }
-                              }}
-                              className="text-[9px] font-mono text-red-400 hover:text-red-300 font-bold bg-red-400/10 hover:bg-red-400/20 px-1.5 py-0.5"
+                              onClick={() => handleReleaseHold(req.id)}
+                              className="text-[9px] font-mono text-red-400 hover:text-red-300 font-bold bg-red-400/10 hover:bg-red-400/20 px-1.5 py-0.5 cursor-pointer"
                             >
                               Release
                             </button>
@@ -1250,12 +1247,13 @@ export function TourWorkspace({
                     const mockUrl = `https://sessiecat.nl/shares/campaign-callsheet-${activeTour.id.slice(0, 6)}`;
                     setCsShareUrl(mockUrl);
                     navigator.clipboard?.writeText?.(mockUrl);
-                    alert(`Public Shareable Roster Call Sheet URL generated & written to clipboard:\n${mockUrl}`);
+                    setCsCopied(true);
+                    setTimeout(() => setCsCopied(false), 3000);
                   }}
                   className="px-4 py-2.5 bg-brand-accent hover:bg-white text-black font-mono font-black uppercase tracking-wider flex items-center gap-1.5 transition cursor-pointer"
                 >
                   <Share2 className="w-4 h-4" />
-                  <span>Generate Shared Public Page</span>
+                  <span>{csCopied ? '✓ Link Gekopieerd' : 'Publieke Deellink Maken'}</span>
                 </button>
 
                 {/* Broadcast SMS/Email Command */}
@@ -1302,11 +1300,12 @@ export function TourWorkspace({
                   <button 
                     onClick={() => {
                       navigator.clipboard?.writeText?.(csShareUrl);
-                      alert("Link copied!");
+                      setCsCopied(true);
+                      setTimeout(() => setCsCopied(false), 3000);
                     }}
-                    className="px-3 py-1.5 bg-neutral-800 text-white font-mono hover:bg-neutral-700 uppercase"
+                    className="px-3 py-1.5 bg-neutral-800 text-white font-mono hover:bg-neutral-700 uppercase cursor-pointer"
                   >
-                    Copy Link
+                    {csCopied ? '✓ Gekopieerd' : 'Kopieer Link'}
                   </button>
                 </div>
               )}

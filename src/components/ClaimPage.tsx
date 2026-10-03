@@ -19,6 +19,7 @@ export function ClaimPage({ jamId }: ClaimPageProps) {
   const [heldSlot, setHeldSlot] = useState<JamSlot | null>(null);
   const [availabilityChoice, setAvailabilityChoice] = useState<'all' | 'custom'>('all');
   const [customAvailability, setCustomAvailability] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
   // Timer state for holds
   const [timeLeft, setTimeLeft] = useState(60);
@@ -112,13 +113,14 @@ export function ClaimPage({ jamId }: ClaimPageProps) {
       setHeldSlot({ ...activeSlot, status: 'held', heldByMasked: `${name.substring(0,2)}***` } as any);
       setStatus('holding');
     } catch (err: any) {
-      alert(`Claim failed: ${err.message}`);
+      setErrorMessage(`Claim mislukt: ${err.message}`);
     }
   };
 
   const handleConfirm = async () => {
     if (!heldSlot) return;
     try {
+      setErrorMessage(null);
       const response = await fetch('/api/slots/action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -145,13 +147,14 @@ export function ClaimPage({ jamId }: ClaimPageProps) {
       });
       setStatus('confirmed');
     } catch (err: any) {
-      alert(`Confirm failed: ${err.message}`);
+      setErrorMessage(`Bevestiging mislukt: ${err.message}`);
     }
   };
 
   const handleDecline = async () => {
     if (!heldSlot) return;
     try {
+      setErrorMessage(null);
       const response = await fetch('/api/slots/action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -178,13 +181,20 @@ export function ClaimPage({ jamId }: ClaimPageProps) {
       });
       setStatus('declined');
     } catch (err: any) {
-      alert(`Decline failed: ${err.message}`);
+      setErrorMessage(`Afwijzing mislukt: ${err.message}`);
     }
   };
 
   return (
     <div className="min-h-screen bg-[#070707] text-white p-4 md:p-8 font-sans animate-fade-in flex flex-col items-center">
       <div className="w-full max-w-lg space-y-6">
+        
+        {errorMessage && (
+          <div className="p-3 bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono rounded flex justify-between items-center">
+            <span>{errorMessage}</span>
+            <button onClick={() => setErrorMessage(null)} className="text-white/60 hover:text-white">✕</button>
+          </div>
+        )}
         
         {/* Header */}
         <div className="text-center space-y-2 mb-8">
